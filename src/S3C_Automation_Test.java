@@ -26,11 +26,36 @@ public class S3C_Automation_Test {
             System.exit(1);
         }
 
+        WebElement uploadBtn = driver.findElement(By.id("uploadPanel"));
+
+        uploadBtn.click();
+
+        WebElement uploadBox = driver.findElement(By.id("files"));
+
+        uploadBox.sendKeys("/Users/hoang/Desktop/Shiitt/viet.txt");
+
+        driver.findElement(By.xpath("//*[@id=\"uploadform\"]/p/a")).click();
+
+        driver.findElement(By.id("pass")).sendKeys("hpccull16");
+
+        driver.findElement(By.xpath("//*[@id=\"popup\"]/button[1]")).click();
+
+        if(driver.findElement(By.xpath("//*[@id=\"uploadContentPanel\"]/div[3]")).getText().contains("Successfully Uploaded"))
+            System.out.println("Uploaded Successfully: Done");
+        else {
+            System.out.println("Failed to upload");
+            System.exit(1);
+        }
+
+
+        driver.findElement(By.id("searchPanel")).click();
+
+
         Select searchOpt = new Select(driver.findElement(By.name("opt")));
 
         searchOpt.selectByValue("1");
         WebElement searchQuery = driver.findElement(By.id("search"));
-        searchQuery.sendKeys("Computer Science");
+        searchQuery.sendKeys("vietnam ");
 
         WebElement submitBtn = driver.findElement(By.xpath("//*[@id=\"SBox\"]/button"));
         submitBtn.click();
@@ -50,9 +75,10 @@ public class S3C_Automation_Test {
         List<WebElement> rows = driver.findElements(By.xpath("//*[@id=\"searchContentPanel\"]/div[4]/div/table/tbody/tr"));
         if(rows.size() > 1)
             System.out.println("Got results: Done\nThere are " + rows.size() + " rows");
-        else
+        else {
             System.out.println("There is no result returned from the query");
-
+            System.exit(1);
+        }
 
         List<WebElement> rowContent = rows.get(0).findElements(By.xpath("td"));
         WebElement operationsContent = rowContent.get(3);
@@ -97,8 +123,6 @@ public class S3C_Automation_Test {
             driver.findElement(By.xpath("/html/body/div/div/div/form/button")).click();
 
         }
-
-
     }
 }
 
